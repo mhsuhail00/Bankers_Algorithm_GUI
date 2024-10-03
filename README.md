@@ -12,8 +12,5 @@ This repository contains the implementation of the Banker's Algorithm with a Jav
 2. Execute Code:
 
    ```bash
-   javac Bankers_GUI.java; java Bankers_GUI
-    or
-   ```bash
-    javac Bankers_GUI.java
+    javac Bankers_GUI.java;
     java Bankers_GUI
