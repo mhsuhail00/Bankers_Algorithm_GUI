@@ -13,7 +13,7 @@ This repository contains the implementation of the Banker's Algorithm with a Jav
 
    ```bash
    javac Bankers_GUI.java; java Bankers_GUI
-
-
-
-
+    or
+   ```bash
+    javac Bankers_GUI.java
+    java Bankers_GUI
