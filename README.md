@@ -1,11 +1,19 @@
 # Bankers_Algorithm_GUI
-The Repository contains the Implementation of Banker's Algorithm to Check for occurrence of Deadlock state. The Code contains a Java GUI Interface.
 
-###How to Use?
-  Clone Repository.
-  ```git clone https://github.com/mhsuhail00/Bankers_Algorithm_GUI.git```
-  or Download Zip
-  Execute Code.
-  ```javac Bankers_GUI.java; java Bankers_GUI```
+This repository contains the implementation of the Banker's Algorithm with a Java-based GUI interface to check for the occurrence of a deadlock state.
+
+## How to Use
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/mhsuhail00/Bankers_Algorithm_GUI.git
+
+2. Execute Code:
+
+   ```bash
+   javac Bankers_GUI.java; java Bankers_GUI
+
+
 
 
