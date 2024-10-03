@@ -1,3 +1,11 @@
+/**
+ * Project Name: Banker's Algorithm GUI
+ * Description: This contains the Implementation of Banker's Algorithm to Check for occurrence of Deadlock state. 
+ *              The Code contains a Java GUI Interface.
+ * Created by: Mohammad Suhail
+ * Date: 02-October-2024
+ * Contact: mhsuhail00@gmail.com
+ */
 import java.awt.event.*;
 import javax.swing.border.*;
 import javax.swing.*;
