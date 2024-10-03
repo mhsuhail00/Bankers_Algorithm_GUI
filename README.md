@@ -2,6 +2,10 @@
 
 This repository contains the implementation of the Banker's Algorithm with a Java-based GUI interface to check for the occurrence of a deadlock state.
 
+## Demo
+
+![Banker's Algorithm Demo](https://github.com/mhsuhail00/Bankers_Algorithm_GUI/blob/main/Demo.gif)
+
 ## How to Use
 
 1. Clone the repository:
