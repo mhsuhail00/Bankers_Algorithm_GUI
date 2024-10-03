@@ -386,13 +386,15 @@ public class Bankers_GUI extends JFrame{
     }
     // JButton Extended Class to Design Custom Button
     class Button extends JButton {
+        // type = 1 represent Red Button & type = 2 represent Bluish Button
         public Button(String text, int type) {
+            // Calling Parent Constructor(constructor of JButton)
             super(text);
             setContentAreaFilled(false);
             setFocusPainted(false);
             setBorderPainted(false);
-            setFont(new Font("Arial", Font.BOLD, 16));
-            setCursor(new Cursor(Cursor.HAND_CURSOR));
+            setFont(new Font("Arial", Font.BOLD, 16)); // Change Font Familiy,Size,Type
+            setCursor(new Cursor(Cursor.HAND_CURSOR)); // Cursor-type on Hover on Button
             if(type == 1)
                 setBackground(Color.RED);
             else if(type == 2)
@@ -401,14 +403,16 @@ public class Bankers_GUI extends JFrame{
             
             addMouseListener(new MouseAdapter() {
                 @Override
+                // Change background color on hover 
                 public void mouseEntered(MouseEvent e) {
                     if(type == 1)
-                        setBackground(new Color(200,0,0));// Change background color on hover
+                        setBackground(new Color(200,0,0));
                     else if(type == 2)
                         setBackground(new Color(41,98,115));
                 }
 
                 @Override
+                // Restore background color after hover
                 public void mouseExited(MouseEvent e) {
                     if(type == 1)
                         setBackground(Color.RED);
@@ -416,14 +420,17 @@ public class Bankers_GUI extends JFrame{
                         setBackground(new Color(53, 126,199));
                 }
                 @Override
+                // Event when Mouse Pressed
                 public void mousePressed(MouseEvent e) {
-                    setBackground(Color.WHITE); // Change back to original color
+                    setBackground(Color.WHITE);
                     if(type == 1)
                         setForeground(Color.RED);
                     else if(type == 2)
                         setForeground(new Color(53, 126,199));
                 }
                 @Override
+                // Event when Mouse Released
+                // Change back to original color
                 public void mouseReleased(MouseEvent e) {
                     // Change back to original color
                     setForeground(Color.WHITE);
@@ -433,6 +440,8 @@ public class Bankers_GUI extends JFrame{
                         setBackground(new Color(53, 126,199));
                 }
             });
+
+            // Event Listener when Button is selected With Keyboard
             addFocusListener(new FocusListener() {
                 @Override
                 public void focusGained(FocusEvent e) {
@@ -457,9 +466,10 @@ public class Bankers_GUI extends JFrame{
         protected void paintComponent(Graphics g) {
             Graphics2D g2d = (Graphics2D) g;
             // to improve rendering quality
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // Enable anti-aliasing
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             // Create a smoother rounded rectangle
             g2d.setColor(getBackground());
+            // Round Corners
             g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 13, 13); // Smooth curves
             super.paintComponent(g);
         }
@@ -476,7 +486,7 @@ public class Bankers_GUI extends JFrame{
             backend.calcAvailableResource(MaxAvailableResource);
 
             setTitle("Banker's Algorithm Result");
-            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // when Closed it will exit only Current Window
             setBackground(new Color(51,51,51));
             setLayout(new GridBagLayout());
             GridBagConstraints gc = new GridBagConstraints();
@@ -494,7 +504,9 @@ public class Bankers_GUI extends JFrame{
                 gc.weighty = 0.5;
                 gc.weightx = 0.5;
             add(P2, gc);
+            // TextArea to Show Output of Algorithm other than Color Animation
             JTextArea P3 = new JTextArea();
+            // Adding ScrollPane over TextArea
             JScrollPane P4 = new JScrollPane(P3);
                 gc.gridx = 1;
                 gc.gridy = 0;
@@ -511,6 +523,7 @@ public class Bankers_GUI extends JFrame{
             // Backend Output
             ArrayList<Integer> toPrint = backend.executeAlgoSingle();
 
+            // Showing Output by means of TextArea
             if(toPrint.size() < totalProcess){
                 P3.setText("This Condition Will Lead to DeadLock State\n\n");
             }
@@ -527,40 +540,54 @@ public class Bankers_GUI extends JFrame{
 
             setResizable(true);
             setMinimumSize(new Dimension(1024, 680));
-            setExtendedState(JFrame.MAXIMIZED_BOTH);
+            setExtendedState(JFrame.MAXIMIZED_BOTH); // by default Maximize Window
 
+            // Timer to show the Animation having gap of 2 sec
             Timer timer = new Timer(2000, new ActionListener() {
+                // variable to keep Track of Animation Termaination
                 int currentIndex = 0;
     
                 @Override
+                // This is triggered after every 2sec
                 public void actionPerformed(ActionEvent e) {
+                    // Check of termination of Animation
                     if (currentIndex < toPrint.size()) {
-                        int processIndex = toPrint.get(currentIndex); 
+                        int processIndex = toPrint.get(currentIndex);
+                        // Change color of Process to whom next resources are Given  
                         for(int i=0; i<allocationMatrix[0].length; i++){
                             needResultMatrix[processIndex][i].setBackground(new Color(53, 126,199));
                         }
+                        // DeadLock Condition
                         if(toPrint.size() < totalProcess){
                             P3.append("P"+toPrint.get(currentIndex).toString()+" -> ");
                         }
+                        // Safe Sequence
                         else{
                             P3.append("P"+toPrint.get(currentIndex).toString());
                             if(currentIndex!=toPrint.size()-1)
                                 P3.append(" -> ");
                         }
+                        // Counter Increment
                         currentIndex++;
                     } else {
+                        // Animation Terminated
+                        // Stop Timer
                         ((Timer) e.getSource()).stop(); // Stop the timer when done
+                        // DeadLock Condition
                         if(toPrint.size() < totalProcess){
                             P3.append("DEADLOCK\n\n");
                             P3.append("Available Resources:\n");
+                            // Print Available Resources at DeadLock
                             for(int j=0;j<totalResources;j++){
                                 P3.append(backend.tmpAvailResource[j].toString());
                                 if(j!=totalResources-1)
                                     P3.append(", ");
                             }
                         }
+                        // Safe Sequence
                         else{
                             P3.append("\n\nFinally Available Resources:\n");
+                            // Print Available Resources at Last
                             for(int j=0;j<totalResources;j++){
                                 P3.append(backend.tmpAvailResource[j].toString());
                                 if(j!=totalResources-1)
@@ -577,6 +604,8 @@ public class Bankers_GUI extends JFrame{
         // Jpanel Extended Class to implement P1 Panel
         class ResultPanel1 extends JPanel{
             ResultPanel1(){
+                // It has 3 Labels namely Title(ex "Allocation Matrix"), Row Legend(ex. Processes) & Column Legend(ex. Resources ->)
+                // It also Contains Array/Collection of JButtons to show Allocation Matrix
                 setLayout(new GridBagLayout());
                 GridBagConstraints gc = new GridBagConstraints();
                 Insets padding = new Insets(2, 2, 2, 2);
@@ -600,6 +629,7 @@ public class Bankers_GUI extends JFrame{
                 this.add(Label3, gc);
                 gc.gridwidth = 1;
 
+                // Global & public 2D array initialization
                 allocationResultMatrix = new JButton[totalProcess][totalResources];
                 for (int i = 0; i < totalProcess; i++) {
                     for (int j = 0; j < totalResources; j++) {
@@ -622,6 +652,8 @@ public class Bankers_GUI extends JFrame{
         }
         // Jpanel Extended Class to implement P2 Panel
         class ResultPanel2 extends JPanel{
+            // It has 3 Labels namely Title(ex "Need Matrix"), Row Legend(ex. Processes) & Column Legend(ex. Resources ->)
+            // It also Contains Array/Collection of JButtons to show Output Need Matrix
             ResultPanel2(){
                 setLayout(new GridBagLayout());
                 GridBagConstraints gc = new GridBagConstraints();
@@ -645,27 +677,28 @@ public class Bankers_GUI extends JFrame{
             this.add(Label3, gc);
             gc.gridwidth = 1;
 
-                needResultMatrix = new JButton[totalProcess][totalResources];
-                for (int i = 0; i < totalProcess; i++) {
-                    for (int j = 0; j < totalResources; j++) {
-                        needResultMatrix[i][j] = new JButton(backend.needMatrix[i][j].toString());
-                        needResultMatrix[i][j].setFont(new Font("Arial", Font.PLAIN, 12));
-                        needResultMatrix[i][j].setBorder(new EmptyBorder(8, 10 , 8, 10));
-                        needResultMatrix[i][j].setFocusPainted(false);
-                        needResultMatrix[i][j].setBorderPainted(false);
-                        needResultMatrix[i][j].setBackground(Color.RED);
-                        needResultMatrix[i][j].setForeground(Color.WHITE);
-                            gc.gridx = j+1;
-                            gc.gridy = i+2;
-                            gc.weightx = 1;
-                            gc.weighty = 1;
-                            gc.insets = padding;
-                        add(needResultMatrix[i][j], gc);
-                    }
+            // Global & public 2D array initialization
+            needResultMatrix = new JButton[totalProcess][totalResources];
+            for (int i = 0; i < totalProcess; i++) {
+                for (int j = 0; j < totalResources; j++) {
+                    needResultMatrix[i][j] = new JButton(backend.needMatrix[i][j].toString());
+                    needResultMatrix[i][j].setFont(new Font("Arial", Font.PLAIN, 12));
+                    needResultMatrix[i][j].setBorder(new EmptyBorder(8, 10 , 8, 10));
+                    needResultMatrix[i][j].setFocusPainted(false);
+                    needResultMatrix[i][j].setBorderPainted(false);
+                    needResultMatrix[i][j].setBackground(Color.RED);
+                    needResultMatrix[i][j].setForeground(Color.WHITE);
+                        gc.gridx = j+1;
+                        gc.gridy = i+2;
+                        gc.weightx = 1;
+                        gc.weighty = 1;
+                        gc.insets = padding;
+                    add(needResultMatrix[i][j], gc);
                 }
             }
         }
     }
+}
 
     // Entry Point Of GUI Interface
     public static void main(String[] args) {
